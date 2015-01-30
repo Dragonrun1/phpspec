@@ -60,6 +60,7 @@
         }
     },
     "replace":  {
-      "phpspec/phpspec": "dev-master"
+      "phpspec/phpspec": "dev-master",
+      "phpspec/phpspec": "2.1.*"
     }
 }
