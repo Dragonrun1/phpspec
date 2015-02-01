@@ -14,6 +14,7 @@
 namespace PhpSpec;
 
 use PhpSpec\Matcher\MatchersProviderInterface;
+use PhpSpec\Wrapper\Subject\Expectation\DuringCall;
 use PhpSpec\Wrapper\WrapperInterface;
 use PhpSpec\Wrapper\SubjectContainerInterface;
 use PhpSpec\Wrapper\Subject;
@@ -28,11 +29,14 @@ use ArrayAccess;
  * wrap the results into PhpSpec subjects. This results will then be able to
  * be matched against expectations.
  *
- * @method void beConstructedWith()
+ * @method void shouldHaveCount($value)
+ * @method void shouldHaveKey($value)
+ * @method void shouldReturnAnInstanceOf($value)
+ * @method void beConstructedWith($value)
  * @method void beConstructedThrough($factoryMethod, array $constructorArguments)
  * @method void beAnInstanceOf($class)
  * @method void shouldHaveType($type)
- * @method \PhpSpec\Wrapper\Subject\Expectation\DuringCall shouldThrow($exception = null)
+ * @method DuringCall shouldThrow($exception = null)
  */
 class ObjectBehavior implements ArrayAccess,
                                 MatchersProviderInterface,
@@ -53,7 +57,7 @@ class ObjectBehavior implements ArrayAccess,
      */
     public function getMatchers()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -120,7 +124,7 @@ class ObjectBehavior implements ArrayAccess,
      */
     public function offsetUnset($key)
     {
-        return $this->object->offsetUnset($key);
+        $this->object->offsetUnset($key);
     }
 
     /**
@@ -131,9 +135,9 @@ class ObjectBehavior implements ArrayAccess,
      *
      * @return mixed
      */
-    public function __call($method, array $arguments = array())
+    public function __call($method, array $arguments = [])
     {
-        return call_user_func_array(array($this->object, $method), $arguments);
+        return call_user_func_array([$this->object, $method], $arguments);
     }
 
     /**
@@ -166,6 +170,6 @@ class ObjectBehavior implements ArrayAccess,
      */
     public function __invoke()
     {
-        return call_user_func_array(array($this->object, '__invoke'), func_get_args());
+        return call_user_func_array([$this->object, '__invoke'], func_get_args());
     }
 }
