@@ -14,7 +14,6 @@
 namespace PhpSpec;
 
 use PhpSpec\Matcher\MatchersProviderInterface;
-use PhpSpec\Wrapper\Subject\Expectation\DuringCall;
 use PhpSpec\Wrapper\WrapperInterface;
 use PhpSpec\Wrapper\SubjectContainerInterface;
 use PhpSpec\Wrapper\Subject;
