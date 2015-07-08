@@ -14,12 +14,9 @@
 namespace PhpSpec\Console;
 
 use PhpSpec\IO\IOInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PhpSpec\Config\OptionsConfig;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Class IO deals with input and output from command line interaction
@@ -31,12 +28,12 @@ class IO implements IOInterface
     const COL_MAX_WIDTH = 80;
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface
+     * @var InputInterface
      */
     private $input;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var OutputInterface
      */
     private $output;
 
@@ -71,8 +68,12 @@ class IO implements IOInterface
      * @param OptionsConfig   $config
      * @param Prompter        $prompter
      */
-    public function __construct(InputInterface $input, OutputInterface $output, OptionsConfig $config, Prompter $prompter)
-    {
+    public function __construct(
+        InputInterface $input,
+        OutputInterface $output,
+        OptionsConfig $config,
+        Prompter $prompter
+    ) {
         $this->input   = $input;
         $this->output  = $output;
         $this->config  = $config;
@@ -245,7 +246,7 @@ class IO implements IOInterface
 
     private function getCommonPrefix($stringA, $stringB)
     {
-        for ($i = 0; $i<min(strlen($stringA), strlen($stringB)); $i++) {
+        for ($i = 0, $len = min(strlen($stringA), strlen($stringB)); $i<$len; $i++) {
             if ($stringA[$i] != $stringB[$i]) {
                 break;
             }

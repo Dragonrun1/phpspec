@@ -130,6 +130,46 @@ passing an exception object to shouldThrow:
         }
     }
 
+If you want to use the Throw matcher to check for exceptions thrown
+during object instantiation you can use the ``duringInstantiation``
+method.
+
+.. code-block:: php
+
+    <?php
+
+    namespace spec;
+
+    use PhpSpec\ObjectBehavior;
+
+    class MovieSpec extends ObjectBehavior
+    {
+        function it_should_not_allow_negative_ratings()
+        {
+            $this->beConstructedWith(-3);
+            $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
+        }
+    }
+
+You can also use the Throw matcher with named constructors.
+
+.. code-block:: php
+
+    <?php
+
+    namespace spec;
+
+    use PhpSpec\ObjectBehavior;
+
+    class MovieSpec extends ObjectBehavior
+    {
+        function it_should_not_allow_negative_ratings()
+        {
+            $this->beConstructedThrough('rated', array(-3));
+            $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
+        }
+    }
+
 
 Type Matcher
 ------------
@@ -289,6 +329,28 @@ identity (``===``).
     }
 
 
+ArrayKeyWithValue Matcher
+--------------------
+
+This matcher lets you assert a specific value for a specific key on a method that returns an array or an implementor of ArrayAccess.
+
+.. code-block:: php
+
+    <?php
+
+    namespace spec;
+
+    use PhpSpec\ObjectBehavior;
+
+    class MovieSpec extends ObjectBehavior
+    {
+        function it_should_have_jane_smith_in_the_cast_with_a_lead_role()
+        {
+            $this->getCast()->shouldHaveKeyWithValue('leadRole', 'John Smith');
+        }
+    }
+
+
 ArrayKey Matcher
 ----------------
 
@@ -406,10 +468,10 @@ You can create custom matchers using the Inline matcher.
         public function getMatchers()
         {
             return [
-                'haveKey' => function($subject, $key) {
+                'haveKey' => function ($subject, $key) {
                     return array_key_exists($key, $subject);
                 },
-                'haveValue' => function($subject, $value) {
+                'haveValue' => function ($subject, $value) {
                     return in_array($value, $subject);
                 },
             ];
